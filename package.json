@@ -1,5 +1,5 @@
 {
-  "name": "cc-quota-statusline",
+  "name": "meowapi-statusline",
   "version": "1.0.0",
   "description": "Claude Code status line: show subscription quota bars on API-key / gateway sessions",
   "keywords": [
@@ -10,17 +10,17 @@
   ],
   "license": "AGPL-3.0-or-later",
   "author": "xingguangcuican6666",
-  "homepage": "https://github.com/xingguangcuican6666/cc-quota-statusline",
+  "homepage": "https://github.com/xingguangcuican6666/meowapi-statusline",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xingguangcuican6666/cc-quota-statusline.git"
+    "url": "git+https://github.com/xingguangcuican6666/meowapi-statusline.git"
   },
   "type": "module",
   "bin": {
-    "cc-quota": "bin/cc-quota.js"
+    "meowapi-statusline": "bin/cli.js"
   },
   "files": [
-    "bin/cc-quota.js",
+    "bin/cli.js",
     "lib/statusline.js"
   ],
   "scripts": {
@@ -30,7 +30,7 @@
     "node": ">=18.17"
   },
   "bugs": {
-    "url": "https://github.com/xingguangcuican6666/cc-quota-statusline/issues"
+    "url": "https://github.com/xingguangcuican6666/meowapi-statusline/issues"
   },
   "publishConfig": {
     "access": "public"

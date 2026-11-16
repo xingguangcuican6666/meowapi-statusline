@@ -1,7 +1,7 @@
 /*
 Copyright (C) 2026 xingguangcuican6666
 
-This file is part of cc-quota-statusline, licensed under the GNU Affero
+This file is part of meowapi-statusline, licensed under the GNU Affero
 General Public License v3.0.
 
 This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@ import {
   statusline,
 } from '../lib/statusline.js'
 
-const WORK = fs.mkdtempSync(path.join(os.tmpdir(), 'cc-quota-test-'))
+const WORK = fs.mkdtempSync(path.join(os.tmpdir(), 'meowapi-statusline-test-'))
 after(() => fs.rmSync(WORK, { recursive: true, force: true }))
 
 let seq = 0

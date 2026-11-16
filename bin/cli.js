@@ -2,7 +2,7 @@
 /*
 Copyright (C) 2026 xingguangcuican6666
 
-This file is part of cc-quota-statusline, licensed under the GNU Affero
+This file is part of meowapi-statusline, licensed under the GNU Affero
 General Public License v3.0.
 
 This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ function printSettings() {
       {
         statusLine: {
           type: 'command',
-          command: 'npx -y cc-quota-statusline',
+          command: 'npx -y meowapi-statusline',
           padding: 0,
           refreshInterval: DEFAULT_REFRESH_INTERVAL,
         },

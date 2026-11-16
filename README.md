@@ -1,4 +1,4 @@
-# cc-quota-statusline
+# meowapi-statusline
 
 在 Claude Code 状态栏显示订阅额度用量（5h / 7d），供 **API-key / 自建网关** 会话使用。
 
@@ -19,26 +19,26 @@ Claude Code 只在 **claude.ai 订阅登录**（token 带 `user:inference` scope
 
 ```bash
 # 方式一：npx，无需预装
-# settings.json 里把 command 写成：npx -y cc-quota-statusline
+# settings.json 里把 command 写成：npx -y meowapi-statusline
 
 # 方式二：全局安装
-npm i -g cc-quota-statusline
+npm i -g meowapi-statusline
 
 # 方式三：不经过 registry
-npm pack && npm i -g ./cc-quota-statusline-1.0.0.tgz
+npm pack && npm i -g ./meowapi-statusline-1.0.0.tgz
 ```
 
 要求 Node.js **≥ 18.17**（使用内置 `fetch` 与 `AbortSignal.timeout`，无第三方依赖）。
 
 ## 配置
 
-把 `cc-quota --print-config` 的输出合进 `~/.claude/settings.json`：
+把 `meowapi-statusline --print-config` 的输出合进 `~/.claude/settings.json`：
 
 ```json
 {
   "statusLine": {
     "type": "command",
-    "command": "cc-quota",
+    "command": "meowapi-statusline",
     "padding": 0,
     "refreshInterval": 20
   }
@@ -94,7 +94,7 @@ base URL 末尾带不带 `/api` 都能识别：
 
 ```bash
 node --test test/          # 11 个用例，覆盖冻结路径与单位换算
-node bin/cc-quota.js --print-config
+node bin/cli.js --print-config
 ```
 
 ## 许可
