@@ -1,0 +1,38 @@
+{
+  "name": "cc-quota-statusline",
+  "version": "1.0.0",
+  "description": "Claude Code status line: show subscription quota bars on API-key / gateway sessions",
+  "keywords": [
+    "claude-code",
+    "statusline",
+    "quota",
+    "new-api"
+  ],
+  "license": "AGPL-3.0-or-later",
+  "author": "xingguangcuican6666",
+  "homepage": "https://github.com/xingguangcuican6666/cc-quota-statusline",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xingguangcuican6666/cc-quota-statusline.git"
+  },
+  "type": "module",
+  "bin": {
+    "cc-quota": "bin/cc-quota.js"
+  },
+  "files": [
+    "bin/cc-quota.js",
+    "lib/statusline.js"
+  ],
+  "scripts": {
+    "test": "node test/statusline.test.js"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "bugs": {
+    "url": "https://github.com/xingguangcuican6666/cc-quota-statusline/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
