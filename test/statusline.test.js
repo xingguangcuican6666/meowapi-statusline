@@ -30,6 +30,7 @@ import {
   credentials,
   FAIL_TTL_MS,
   human,
+  isPlausibleReset,
   normalizeUsage,
   renderLine,
   statusline,
@@ -100,6 +101,30 @@ describe('renderLine', () => {
 
   it('renders an empty line for a payload with no periods', () => {
     assert.equal(renderLine({}, 1000), '')
+  })
+
+  // A rolling-window gateway reports "a full window from now" on every request,
+  // which is the window length echoed back, not a reset time.
+  it('drops a reset that is exactly one window away', () => {
+    const rolling = { five_hour: { utilization: 0, resets_at: 1000 + 5 * 3600 } }
+    assert.equal(renderLine(rolling, 1000), `${renderLine({ five_hour: { utilization: 0 } }, 1000)}`)
+    assert.doesNotMatch(renderLine(rolling, 1000), /↻/)
+  })
+
+  it('keeps a reset that is inside the window', () => {
+    const line = renderLine({ five_hour: { utilization: 100, resets_at: 1000 + 2 * 3600 } }, 1000)
+    assert.match(line, /↻2h00m/)
+  })
+})
+
+describe('isPlausibleReset', () => {
+  it('accepts only a future reset strictly inside the window', () => {
+    assert.equal(isPlausibleReset(1000 + 3600, 1000, 5 * 3600), true)
+    assert.equal(isPlausibleReset(1000 + 5 * 3600 - 1, 1000, 5 * 3600), true)
+    assert.equal(isPlausibleReset(1000 + 5 * 3600, 1000, 5 * 3600), false)
+    assert.equal(isPlausibleReset(1000 + 5 * 3600 + 1, 1000, 5 * 3600), false)
+    assert.equal(isPlausibleReset(1000, 1000, 5 * 3600), false)
+    assert.equal(isPlausibleReset(900, 1000, 5 * 3600), false)
   })
 })
 
