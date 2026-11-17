@@ -33,6 +33,7 @@ import {
   isPlausibleReset,
   normalizeUsage,
   renderLine,
+  RESET_SKEW_SECONDS,
   statusline,
 } from '../lib/statusline.js'
 
@@ -103,12 +104,11 @@ describe('renderLine', () => {
     assert.equal(renderLine({}, 1000), '')
   })
 
-  // A rolling-window gateway reports "a full window from now" on every request,
-  // which is the window length echoed back, not a reset time.
-  it('drops a reset that is exactly one window away', () => {
-    const rolling = { five_hour: { utilization: 0, resets_at: 1000 + 5 * 3600 } }
-    assert.equal(renderLine(rolling, 1000), `${renderLine({ five_hour: { utilization: 0 } }, 1000)}`)
-    assert.doesNotMatch(renderLine(rolling, 1000), /↻/)
+  // A window that just opened reports a reset a full window out. That is a real
+  // countdown from the first refresh, not an echo, so it must be drawn.
+  it('keeps a reset that is one window away', () => {
+    const fresh = { five_hour: { utilization: 0, resets_at: 1000 + 5 * 3600 } }
+    assert.match(renderLine(fresh, 1000), /↻5h00m/)
   })
 
   it('keeps a reset that is inside the window', () => {
@@ -118,11 +118,16 @@ describe('renderLine', () => {
 })
 
 describe('isPlausibleReset', () => {
-  it('accepts only a future reset strictly inside the window', () => {
+  it('accepts a future reset up to one window away, with skew slack', () => {
     assert.equal(isPlausibleReset(1000 + 3600, 1000, 5 * 3600), true)
     assert.equal(isPlausibleReset(1000 + 5 * 3600 - 1, 1000, 5 * 3600), true)
-    assert.equal(isPlausibleReset(1000 + 5 * 3600, 1000, 5 * 3600), false)
-    assert.equal(isPlausibleReset(1000 + 5 * 3600 + 1, 1000, 5 * 3600), false)
+    assert.equal(isPlausibleReset(1000 + 5 * 3600, 1000, 5 * 3600), true)
+    assert.equal(isPlausibleReset(1000 + 5 * 3600 + RESET_SKEW_SECONDS, 1000, 5 * 3600), true)
+  })
+
+  it('rejects a reset beyond the window or already past', () => {
+    assert.equal(isPlausibleReset(1000 + 5 * 3600 + RESET_SKEW_SECONDS + 1, 1000, 5 * 3600), false)
+    assert.equal(isPlausibleReset(1000 + 30 * 86400, 1000, 5 * 3600), false)
     assert.equal(isPlausibleReset(1000, 1000, 5 * 3600), false)
     assert.equal(isPlausibleReset(900, 1000, 5 * 3600), false)
   })
