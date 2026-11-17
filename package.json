@@ -1,6 +1,6 @@
 {
   "name": "meowapi-statusline",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Claude Code status line: show subscription quota bars on API-key / gateway sessions",
   "keywords": [
     "claude-code",
